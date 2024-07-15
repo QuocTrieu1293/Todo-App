@@ -1,0 +1,65 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 35vw;
+    background-color: #F7EEDD;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.4);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.sb-body {
+    flex-grow: 1;
+}
+
+.sb-item {
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    color: #666666;
+    font-family: "Cabin", sans-serif;
+    width: 100%;
+    border: none;
+}
+
+input.sb-item {
+    outline-style: dashed;
+    outline-width: 1px;
+}
+
+input.sb-item:focus {
+    outline-color: cornflowerblue;
+    outline-width: 2px;
+}
+
+.sb-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 5px;
+}
+
+.sb-button {
+    width: 45%;
+    height: 40px;
+    max-width: 123px;
+    border: none;
+    background-color: cornflowerblue;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.sb-button:hover {
+    opacity: 0.9;
+}

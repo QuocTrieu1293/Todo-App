@@ -2,6 +2,7 @@
     color: #616161;
     font-family: "Cabin", sans-serif;
     font-weight: 500;
+    flex: 1;
 }
 
 .todo-input, .todo-item {
@@ -12,11 +13,15 @@
     border-radius: 5px;
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, .1);
     /* x-offset y-offset blur spread color*/
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.todo-item {
+    cursor: pointer;
 }
 
 .container {

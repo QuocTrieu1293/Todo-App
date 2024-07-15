@@ -1,26 +1,29 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Checkbox.css";
 
 const Checkbox = (props) => {
   // const [checked, setChecked] = useState(props.checked);
 
   return (
-    <div className="cb-container">
+    <span className="cb-container">
       <input
         type="checkbox"
         name={props.name}
         checked={props.checked}
         id={props.id}
-        onChange={() => {}}
+        onChange={props.onChange}
         style={{ display: "none" }}
       />
-      <div
+      <span
         className={props.checked ? "cb-circle-checked" : "cb-circle"}
-        onClick={props.onChange}
+        onClick={(e) => {
+          e.stopPropagation();
+          props.onChange();
+        }}
       >
         {props.checked && <span className="cb-tick" />}
-      </div>
-    </div>
+      </span>
+    </span>
   );
 };
 
