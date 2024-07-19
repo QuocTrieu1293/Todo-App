@@ -8,7 +8,7 @@
 .todo-input, .todo-item {
     background-color: white;
     border-width: 0;
-    width: 100%;
+    width: 100%;  /* mặc định div có width 100% còn các thẻ inline thì mặc định width là fit-content*/
     padding: 8px 15px;
     border-radius: 5px;
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, .1);
@@ -24,6 +24,24 @@
     cursor: pointer;
 }
 
-.container {
-    padding: 30px;
+.todo-item:hover {
+    opacity: 0.85;
 }
+
+.main-container {
+    padding: 30px;
+    flex: 3;
+}
+
+.filter-panel {
+    flex: 1;
+    background-color: #FAFAFA;
+    padding: 30px 20px;
+}
+
+.container {
+    height: 100vh;
+    display: flex;
+}
+
+

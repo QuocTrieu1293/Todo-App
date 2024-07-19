@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
 import "./Checkbox.css";
+import PropTypes from "prop-types";
 
 const Checkbox = (props) => {
   // const [checked, setChecked] = useState(props.checked);
@@ -25,6 +25,13 @@ const Checkbox = (props) => {
       </span>
     </span>
   );
+};
+
+Checkbox.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  checked: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 export default Checkbox;

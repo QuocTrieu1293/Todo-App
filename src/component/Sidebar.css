@@ -26,7 +26,7 @@
     border-radius: 10px;
     color: #666666;
     font-family: "Cabin", sans-serif;
-    width: 100%;
+    width: 100%; /* mặc định div có width 100% còn các thẻ inline thì mặc định width là fit-content*/
     border: none;
 }
 
@@ -62,4 +62,11 @@ input.sb-item:focus {
 
 .sb-button:hover {
     opacity: 0.9;
+}
+
+.sb-category-select {
+    border: none;
+    padding: 0 6px;
+    outline: none;
+    border-radius: 3px;
 }

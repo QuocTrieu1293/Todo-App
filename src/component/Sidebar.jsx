@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Sidebar.css";
+import PropTypes from "prop-types";
+import { useAppContext } from "../context/AppProvider";
 
 const Sidebar = (props) => {
+  console.log("Sidebar component rendered");
+
   const { todo } = props;
   const [todoValue, setTodoValue] = useState(todo.value);
   const [isImportant, setImportant] = useState(todo.isImportant);
   const [isCompleted, setCompleted] = useState(todo.isCompleted);
+  const [cateId, setCateId] = useState(todo.cateId);
+  const { categories } = useAppContext();
 
   return (
-    <div className="sidebar">
+    <div className="sidebar" onClick={props.onClick}>
       <form className="sb-body">
         <p
           style={{
@@ -49,6 +55,25 @@ const Sidebar = (props) => {
             onChange={() => setCompleted(!isCompleted)}
           />
         </div>
+        <div className="sb-item">
+          <label htmlFor="category">Danh mục</label>
+          <select
+            id="category"
+            name="category"
+            className="sb-category-select"
+            value={cateId}
+            onChange={(e) => setCateId(e.target.value)}
+          >
+            {categories.map(
+              (cate) =>
+                cate.id !== "all" && (
+                  <option key={cate.id} value={cate.id}>
+                    {cate.label}
+                  </option>
+                )
+            )}
+          </select>
+        </div>
       </form>
       <div className="sb-footer">
         <button
@@ -67,6 +92,7 @@ const Sidebar = (props) => {
               value: todoValue,
               isCompleted,
               isImportant,
+              cateId,
             })
           }
         >
@@ -75,6 +101,20 @@ const Sidebar = (props) => {
       </div>
     </div>
   );
+};
+
+Sidebar.propTypes = {
+  // todo: PropTypes.shape({
+  //   id: PropTypes.string,
+  //   value: PropTypes.string,
+  //   isCompleted: PropTypes.bool,
+  //   isImportant: PropTypes.bool,
+  //   isDeleted: PropTypes.bool,
+  // }),
+  todo: PropTypes.object,
+  onClick: PropTypes.func,
+  onCancel: PropTypes.func,
+  onSave: PropTypes.func,
 };
 
 export default Sidebar;
