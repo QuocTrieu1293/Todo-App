@@ -49,6 +49,19 @@ function App() {
     }
   };
 
+  const deleteTodo = (todoId) => {
+    const newTodos = todos.filter((todo) => todo.id !== todoId);
+    setTodos(newTodos);
+  };
+
+  const restoreTodo = (todoId) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === todoId) todo.isDeleted = false;
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+
   // expensive function -> useMemo
   const filteredTodos = useMemo(() => {
     // console.log("execute expensive func");
@@ -61,21 +74,19 @@ function App() {
 
       switch (selectedFilterId) {
         case "all":
-          return true;
+          return !todo.isDeleted;
         case "important":
-          return todo.isImportant === true;
+          return !todo.isDeleted && todo.isImportant;
         case "completed":
-          return todo.isCompleted === true;
+          return !todo.isDeleted && todo.isCompleted;
         case "deleted":
-          return todo.isDeleted === true;
+          return todo.isDeleted;
         default:
           console.warn(">>> Invalid FilterId");
           return false;
       }
     });
   }, [todos, selectedFilterId, searchText, selectedCateId]);
-
-  console.log({ filteredTodos });
 
   // expensive function -> useMemo
   const clickedTodo = useMemo(() => {
@@ -88,10 +99,7 @@ function App() {
     return (
       <TodoItem
         key={todo.id}
-        id={todo.id}
-        value={todo.value}
-        isCompleted={todo.isCompleted}
-        isImportant={todo.isImportant}
+        todo={todo}
         handleCompletedChange={handleCompletedChange}
         handleTodoClick={(e) => {
           if (clickedTodoId !== todo.id) {
@@ -100,6 +108,8 @@ function App() {
           }
         }}
         active={clickedTodoId === todo.id}
+        deleteTodo={selectedFilterId === "deleted" ? deleteTodo : undefined}
+        restoreTodo={selectedFilterId === "deleted" ? restoreTodo : undefined}
       />
     );
   });
@@ -127,11 +137,34 @@ function App() {
             key={clickedTodoId}
             todo={clickedTodo}
             onCancel={() => setClickedTodoId(null)}
-            onSave={(newTodo) => {
-              updateTodo(newTodo);
-              setClickedTodoId(null);
-            }}
+            onSave={
+              !clickedTodo.isDeleted
+                ? (newTodo) => {
+                    updateTodo(newTodo);
+                    setClickedTodoId(null);
+                  }
+                : undefined
+            }
             onClick={(e) => e.stopPropagation()}
+            onDelete={
+              !clickedTodo.isDeleted
+                ? () => {
+                    updateTodo({ ...clickedTodo, isDeleted: true });
+                    setClickedTodoId(null);
+                  }
+                : () => {
+                    deleteTodo(clickedTodo.id);
+                    setClickedTodoId(null);
+                  }
+            }
+            onRestore={
+              clickedTodo.isDeleted
+                ? () => {
+                    restoreTodo(clickedTodo.id);
+                    setClickedTodoId(null);
+                  }
+                : undefined
+            }
           />
         )}
       </div>

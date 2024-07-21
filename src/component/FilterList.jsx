@@ -41,10 +41,12 @@ const FilterList = () => {
       )
       .reduce(
         (acc, todo) => {
-          if (todo.isImportant) acc.important++;
-          if (todo.isCompleted) acc.completed++;
           if (todo.isDeleted) acc.deleted++;
-          acc.all++;
+          else {
+            if (todo.isImportant) acc.important++;
+            if (todo.isCompleted) acc.completed++;
+            acc.all++;
+          }
           return acc;
         },
         { all: 0, important: 0, completed: 0, deleted: 0 }

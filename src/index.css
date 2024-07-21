@@ -10,3 +10,6 @@ body {
     font-size: 14px;
 }
 
+#root {
+    min-height: 100vh;
+}

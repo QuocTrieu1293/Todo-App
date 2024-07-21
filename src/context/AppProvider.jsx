@@ -11,6 +11,7 @@ const dummyTodos = [
     isImportant: true,
     isDeleted: false,
     cateId: "4",
+    description: "xem từ vid số 2 đên 5",
   },
   {
     id: crypto.randomUUID(),
@@ -19,6 +20,7 @@ const dummyTodos = [
     isImportant: true,
     isDeleted: false,
     cateId: "3",
+    description: "Làm đề reading và listening",
   },
   {
     id: crypto.randomUUID(),
@@ -27,6 +29,7 @@ const dummyTodos = [
     isImportant: false,
     isDeleted: false,
     cateId: "2",
+    description: "Làm daily leetcode và tham gia contest",
   },
   {
     id: crypto.randomUUID(),
@@ -35,6 +38,7 @@ const dummyTodos = [
     isImportant: false,
     isDeleted: false,
     cateId: "1",
+    description: "Tập ngực + vai",
   },
   {
     id: crypto.randomUUID(),
@@ -43,6 +47,7 @@ const dummyTodos = [
     isImportant: true,
     isDeleted: false,
     cateId: "2",
+    description: "",
   },
 ];
 

@@ -11,8 +11,12 @@ const CategoryList = () => {
   // expensive function => useMemo
   const cateCount = useMemo(() => {
     return todos.reduce(
-      (acc, todo) => ({ ...acc, [todo.cateId]: (acc[todo.cateId] ?? 0) + 1 }),
-      { all: todos.length }
+      (acc, todo) => ({
+        ...acc,
+        [todo.cateId]: (acc[todo.cateId] ?? 0) + (todo.isDeleted ? 0 : 1),
+        all: acc.all + (todo.isDeleted ? 0 : 1),
+      }),
+      { all: 0 }
     );
   }, [todos]);
 

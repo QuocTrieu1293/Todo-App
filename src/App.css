@@ -3,21 +3,22 @@
     font-family: "Cabin", sans-serif;
     font-weight: 500;
     flex: 1;
+    min-width: 0;
 }
 
 .todo-input, .todo-item {
     background-color: white;
     border-width: 0;
     width: 100%;  /* mặc định div có width 100% còn các thẻ inline thì mặc định width là fit-content*/
-    padding: 8px 15px;
+    padding: 10px 15px;
     border-radius: 5px;
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, .1);
     /* x-offset y-offset blur spread color*/
     margin-bottom: 10px;
 
     display: flex;
-    align-items: center;
-    gap: 8px;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 .todo-item {
@@ -31,17 +32,28 @@
 .main-container {
     padding: 30px;
     flex: 3;
+    min-width: 0;
 }
 
 .filter-panel {
     flex: 1;
     background-color: #FAFAFA;
     padding: 30px 20px;
+    min-height: 100vh;
 }
 
 .container {
-    height: 100vh;
+    height: 100%;
     display: flex;
 }
 
 
+.button {
+    padding: 3px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button:hover {
+    box-shadow: 0px 0 4px rgba(0,0,0,0.3);
+}

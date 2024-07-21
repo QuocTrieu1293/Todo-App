@@ -11,7 +11,7 @@
     position: relative;
 }
 
-.cb-circle:hover {
+:not([disabled]).cb-circle:hover {
     border-color: #3d3d3d;
 }
 
@@ -24,7 +24,7 @@
     position: relative;
 }
 
-.cb-circle-checked:hover {
+:not([disabled]).cb-circle-checked:hover {
     background-color: #3d3d3d;
 }
 
