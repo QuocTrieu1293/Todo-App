@@ -57,7 +57,7 @@ const dummyCategories = [
     label: "Tất cả",
   },
   {
-    id: "1",
+    id: "default",
     label: "Cá nhân",
   },
   {

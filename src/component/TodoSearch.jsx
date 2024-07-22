@@ -1,4 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppContext } from "../context/AppProvider";
+import { faMagnifyingGlass, faX } from "@fortawesome/free-solid-svg-icons";
 
 const TodoSearch = () => {
   console.log("TodoSearch component rendered");
@@ -7,7 +9,7 @@ const TodoSearch = () => {
 
   return (
     <div className="search-container">
-      <span>🔍</span>
+      <FontAwesomeIcon icon={faMagnifyingGlass} color="#7A7A7A" size="lg" />
       <input
         className="search"
         type="text"
@@ -17,9 +19,13 @@ const TodoSearch = () => {
         spellCheck="false"
       />
       {searchText && (
-        <span className="search-clear" onClick={() => setSearchText("")}>
-          ❌
-        </span>
+        <FontAwesomeIcon
+          icon={faX}
+          color="#7A7A7A"
+          size="xs"
+          className="search-clear"
+          onClick={() => setSearchText("")}
+        />
       )}
     </div>
   );

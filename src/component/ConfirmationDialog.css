@@ -31,11 +31,13 @@
   gap: 24px;
   padding: 24px;
   border-bottom: solid 1px #bfbfbf;
+  align-items: center;
 }
 
 .cd-text {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 8px;
 }
 

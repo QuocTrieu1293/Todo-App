@@ -1,7 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Checkbox from "./Checkbox";
 import PropTypes from "prop-types";
-import { faRotateLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faRotateLeft,
+  faStar,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useState } from "react";
 
@@ -54,7 +58,13 @@ const TodoItem = (props) => {
             alignItems: "flex-end",
           }}
         >
-          <p style={{ opacity: todo.isImportant ? 1 : 0 }}>⭐</p>
+          <FontAwesomeIcon
+            icon={faStar}
+            style={{ opacity: todo.isImportant ? 1 : 0 }}
+            color="#EAA300"
+            size="lg"
+            title={todo.isImportant ? "Quan trọng" : undefined}
+          />
           {todo.isDeleted && (
             <div style={{ display: "flex", gap: 2 }}>
               <div
@@ -63,6 +73,7 @@ const TodoItem = (props) => {
                   e.stopPropagation();
                   setDeleteDialogShow(true);
                 }}
+                title="Xoá khỏi sọt rác"
               >
                 <FontAwesomeIcon icon={faTrash} color="#d11a2a" />
               </div>
@@ -72,6 +83,7 @@ const TodoItem = (props) => {
                   e.stopPropagation();
                   props.restoreTodo(todo.id);
                 }}
+                title="Khôi phục"
               >
                 <FontAwesomeIcon icon={faRotateLeft} color="#0b7fab" />
               </div>

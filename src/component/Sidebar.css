@@ -40,15 +40,15 @@ input.sb-item:focus {
     outline-width: 2px;
 }
 
+input.sb-item:invalid[firstFocused="true"] {
+    outline-color: red;
+}
+
 textarea.sb-item {
     outline-style: dashed;
     outline-width: 1px;
     color: #454545;
     font-size: 16px;
-}
-
-textarea::placeholder {
-    font-style: italic;
 }
 
 textarea.sb-item:focus {
@@ -98,4 +98,15 @@ textarea.sb-item:focus {
 
 .sb-icon-btn:hover {
     opacity: 0.85;
+}
+
+.sb-error-text {
+    padding: 3px;
+    color: red;
+    font-size: 12px;
+    display: none;
+}
+
+input:invalid[firstFocused="true"] ~ .sb-error-text {
+    display: block;
 }

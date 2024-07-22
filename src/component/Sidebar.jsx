@@ -5,17 +5,20 @@ import { useAppContext } from "../context/AppProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 import ConfirmationDialog from "./ConfirmationDialog";
+import TextInput from "./TextInput";
 
 const Sidebar = (props) => {
   console.log("Sidebar component rendered");
 
   const { todo } = props;
-  const [todoValue, setTodoValue] = useState(todo.value);
-  const [isImportant, setImportant] = useState(todo.isImportant);
-  const [isCompleted, setCompleted] = useState(todo.isCompleted);
-  const [cateId, setCateId] = useState(todo.cateId);
-  const [description, setDescription] = useState(todo.description);
-  const { categories } = useAppContext();
+  const { categories, selectedCateId } = useAppContext();
+  const [todoValue, setTodoValue] = useState(todo?.value);
+  const [isImportant, setImportant] = useState(todo?.isImportant);
+  const [isCompleted, setCompleted] = useState(todo?.isCompleted);
+  const [cateId, setCateId] = useState(
+    todo?.cateId ?? (selectedCateId == "all" ? "default" : selectedCateId)
+  );
+  const [description, setDescription] = useState(todo?.description);
   const [deleteDialogShow, setDeleteDialogShow] = useState(false);
 
   return (
@@ -25,16 +28,28 @@ const Sidebar = (props) => {
           className="sb-body"
           onSubmit={(e) => {
             e.preventDefault();
-            if (!todo.isDeleted)
-              props.onSave({
-                ...todo,
+            if (todo) {
+              if (!todo.isDeleted)
+                props.onSave({
+                  ...todo,
+                  value: todoValue,
+                  isCompleted,
+                  isImportant,
+                  cateId,
+                  description,
+                });
+              else setDeleteDialogShow(true);
+            } else {
+              props.onAddNew({
+                id: crypto.randomUUID(),
                 value: todoValue,
                 isCompleted,
                 isImportant,
+                isDeleted: false,
                 cateId,
                 description,
               });
-            else setDeleteDialogShow(true);
+            }
           }}
         >
           <p
@@ -47,31 +62,42 @@ const Sidebar = (props) => {
           >
             Công việc
           </p>
-          <div style={{ position: "relative" }}>
-            <input
+          <div style={{ position: "relative", marginBottom: 10 }}>
+            <TextInput
               className="sb-item"
-              style={{ fontWeight: 500, fontSize: 16 }}
-              type="text"
+              style={{ fontWeight: 500, fontSize: 16, marginBottom: 0 }}
               id="value"
               name="value"
               value={todoValue}
+              placeholder="Nhập việc cần làm ..."
               onChange={(e) => setTodoValue(e.target.value)}
               spellCheck="false"
-              disabled={todo.isDeleted}
+              disabled={todo?.isDeleted}
+              autoComplete="off"
+              required
             />
-            {todo.isDeleted ? (
-              <span className="sb-icon-btn" onClick={props.onRestore}>
-                <FontAwesomeIcon
-                  icon={faRotateLeft}
-                  color="#0b7fab"
-                  size="lg"
-                />
-              </span>
-            ) : (
-              <span className="sb-icon-btn" onClick={props.onDelete}>
-                <FontAwesomeIcon icon={faTrash} color="#d11a2a" size="lg" />
-              </span>
-            )}
+            {todo &&
+              (todo.isDeleted ? (
+                <span
+                  className="sb-icon-btn"
+                  onClick={props.onRestore}
+                  title="Khôi phục"
+                >
+                  <FontAwesomeIcon
+                    icon={faRotateLeft}
+                    color="#0b7fab"
+                    size="lg"
+                  />
+                </span>
+              ) : (
+                <span
+                  className="sb-icon-btn"
+                  onClick={props.onDelete}
+                  title="Đưa vào sọt rác"
+                >
+                  <FontAwesomeIcon icon={faTrash} color="#d11a2a" size="lg" />
+                </span>
+              ))}
           </div>
           <div className="sb-item">
             <label htmlFor="is-important">Quan trọng</label>
@@ -81,7 +107,7 @@ const Sidebar = (props) => {
               name="isImportant"
               checked={isImportant}
               onChange={() => setImportant(!isImportant)}
-              disabled={todo.isDeleted}
+              disabled={todo?.isDeleted}
             />
           </div>
           <div className="sb-item">
@@ -92,7 +118,7 @@ const Sidebar = (props) => {
               name="isCompleted"
               checked={isCompleted}
               onChange={() => setCompleted(!isCompleted)}
-              disabled={todo.isDeleted}
+              disabled={todo?.isDeleted}
             />
           </div>
           <div className="sb-item">
@@ -103,7 +129,7 @@ const Sidebar = (props) => {
               className="sb-category-select"
               value={cateId}
               onChange={(e) => setCateId(e.target.value)}
-              disabled={todo.isDeleted}
+              disabled={todo?.isDeleted}
             >
               {categories.map(
                 (cate) =>
@@ -141,9 +167,12 @@ const Sidebar = (props) => {
               placeholder="Ghi chú cho công việc ..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              disabled={todo.isDeleted}
+              disabled={todo?.isDeleted}
+              spellCheck="false"
+              autoComplete="off"
             />
           </div>
+
           <div className="sb-footer">
             <button
               className="sb-button"
@@ -155,16 +184,20 @@ const Sidebar = (props) => {
             <input
               className="sb-button"
               style={{
-                backgroundColor: todo.isDeleted ? "#F44336" : "#0F6CBD",
+                backgroundColor: todo
+                  ? todo.isDeleted
+                    ? "#F44336"
+                    : "#0F6CBD"
+                  : "#00b16a",
                 color: "#FFFFFF",
               }}
               type="submit"
-              value={todo.isDeleted ? "Xoá" : "Lưu"}
+              value={todo ? (todo.isDeleted ? "Xoá" : "Lưu") : "Thêm"}
             />
           </div>
         </form>
       </div>
-      {todo.isDeleted && (
+      {todo?.isDeleted && (
         <ConfirmationDialog
           open={deleteDialogShow}
           setOpen={setDeleteDialogShow}
@@ -173,7 +206,7 @@ const Sidebar = (props) => {
             <>
               Bạn có chắc muốn xoá công việc{" "}
               <span style={{ fontStyle: "italic", fontWeight: 600 }}>
-                {todo.value}
+                {todo?.value}
               </span>
               ?
             </>
@@ -201,6 +234,7 @@ Sidebar.propTypes = {
   onSave: PropTypes.func,
   onDelete: PropTypes.func,
   onRestore: PropTypes.func,
+  onAddNew: PropTypes.func,
 };
 
 export default Sidebar;

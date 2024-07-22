@@ -1,17 +1,25 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import "./App.css";
 import FilterPanel from "./component/FilterPanel";
 import Sidebar from "./component/Sidebar";
 import TodoItem from "./component/TodoItem";
 import { useAppContext } from "./context/AppProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   console.log("App component rendered");
 
-  const { todos, setTodos, searchText, selectedCateId, selectedFilterId } =
-    useAppContext();
-  const todoInputRef = useRef(null);
-  const [clickedTodoId, setClickedTodoId] = useState(null);
+  const {
+    todos,
+    setTodos,
+    searchText,
+    selectedCateId,
+    selectedFilterId,
+    categories,
+  } = useAppContext();
+  const [clickedTodoId, setClickedTodoId] = useState(undefined);
+  const [clickAddNewTodo, setClickAddNewTodo] = useState(false);
 
   const handleCompletedChange = (todoId) => {
     const newTodos = todos.map((todo) => {
@@ -31,22 +39,8 @@ function App() {
     setTodos(newTodos);
   };
 
-  const addNewTodo = (e) => {
-    if (e.key === "Enter") {
-      setTodos([
-        ...todos,
-        {
-          id: crypto.randomUUID(),
-          value: e.target.value,
-          isCompleted: false,
-          isImportant: false,
-          isDeleted: false,
-        },
-      ]);
-      // todos.push({ id: crypto.randomUUID(), value: e.target.value });
-      // e.target.value = "";
-      todoInputRef.current.value = "";
-    }
+  const addNewTodo = (newTodo) => {
+    setTodos([...todos, newTodo]);
   };
 
   const deleteTodo = (todoId) => {
@@ -95,6 +89,11 @@ function App() {
     return filteredTodos.find((todo) => todo.id === clickedTodoId);
   }, [clickedTodoId]);
 
+  const selectedCate = useMemo(
+    () => categories.find((cate) => cate.id === selectedCateId),
+    [selectedCateId]
+  );
+
   const filteredTodoItems = filteredTodos.map((todo) => {
     return (
       <TodoItem
@@ -105,6 +104,7 @@ function App() {
           if (clickedTodoId !== todo.id) {
             e.stopPropagation();
             setClickedTodoId(todo.id);
+            if (clickAddNewTodo) setClickAddNewTodo(false);
           }
         }}
         active={clickedTodoId === todo.id}
@@ -114,57 +114,92 @@ function App() {
     );
   });
 
+  const cancelSideBar = () => {
+    if (clickedTodoId) setClickedTodoId(undefined);
+    if (clickAddNewTodo) setClickAddNewTodo(false);
+  };
+
   return (
-    <div
-      className="container"
-      onClick={() => {
-        if (clickedTodo) setClickedTodoId(null);
-      }}
-    >
+    <div className="container" onClick={cancelSideBar}>
       <FilterPanel />
       <div className="main-container">
-        <input
-          ref={todoInputRef}
-          type="text"
-          name="todoInput"
-          placeholder="Nhập việc cần làm"
-          className="todo-input"
-          onKeyDown={addNewTodo}
-        />
+        <p
+          style={{
+            fontSize: 24,
+            fontWeight: 500,
+            fontFamily: ["Roboto", "sans-serif"],
+            marginBottom: 24,
+          }}
+        >
+          {selectedCate.label}
+        </p>
+        <button
+          className="todo-item todo-item-text"
+          style={{
+            alignItems: "center",
+            backgroundColor: clickAddNewTodo
+              ? "#dddddd"
+              : "rgba(146, 199, 207, 0.65)",
+            width: "fit-content",
+            marginBottom: 22,
+            borderStyle: "dashed",
+            borderWidth: 1,
+            borderColor: "#535353",
+            borderRadius: 12,
+            color: "#535353",
+            boxShadow: clickAddNewTodo ? undefined : "none",
+          }}
+          onClick={(e) => {
+            if (!clickAddNewTodo) {
+              e.stopPropagation();
+              setClickAddNewTodo(true);
+              if (clickedTodoId) setClickedTodoId(undefined);
+            }
+          }}
+        >
+          <FontAwesomeIcon icon={faPlus} />
+          <p>Thêm việc cần làm</p>
+        </button>
         {filteredTodoItems}
-        {clickedTodoId && (
+        {(clickedTodoId || clickAddNewTodo) && (
           <Sidebar
-            key={clickedTodoId}
-            todo={clickedTodo}
-            onCancel={() => setClickedTodoId(null)}
+            key={clickedTodoId ?? "add-new"}
+            todo={clickedTodo ?? undefined}
+            onCancel={cancelSideBar}
             onSave={
-              !clickedTodo.isDeleted
+              clickedTodoId && !clickedTodo.isDeleted
                 ? (newTodo) => {
                     updateTodo(newTodo);
-                    setClickedTodoId(null);
+                    setClickedTodoId(undefined);
                   }
                 : undefined
             }
             onClick={(e) => e.stopPropagation()}
             onDelete={
-              !clickedTodo.isDeleted
-                ? () => {
-                    updateTodo({ ...clickedTodo, isDeleted: true });
-                    setClickedTodoId(null);
-                  }
-                : () => {
-                    deleteTodo(clickedTodo.id);
-                    setClickedTodoId(null);
-                  }
+              clickedTodoId
+                ? !clickedTodo.isDeleted
+                  ? () => {
+                      updateTodo({ ...clickedTodo, isDeleted: true });
+                      setClickedTodoId(undefined);
+                    }
+                  : () => {
+                      deleteTodo(clickedTodo.id);
+                      setClickedTodoId(undefined);
+                    }
+                : undefined
             }
             onRestore={
-              clickedTodo.isDeleted
+              clickedTodoId && clickedTodo.isDeleted
                 ? () => {
                     restoreTodo(clickedTodo.id);
-                    setClickedTodoId(null);
+                    setClickedTodoId(undefined);
                   }
                 : undefined
             }
+            onAddNew={(newTodo) => {
+              addNewTodo(newTodo);
+              setClickAddNewTodo(false);
+            }}
           />
         )}
       </div>

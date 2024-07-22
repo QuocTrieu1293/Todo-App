@@ -7,6 +7,10 @@
 
 body {
     background-color: #92C7CF;
+    background-image: url('./background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     font-size: 14px;
 }
 
