@@ -63,3 +63,7 @@
     font-weight: 300;
     color: #adacad;
 }
+
+::selection {
+    background-color: #bdd7f0;
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./Sidebar.css";
 import PropTypes from "prop-types";
 import { useAppContext } from "../context/AppProvider";
@@ -8,7 +8,7 @@ import ConfirmationDialog from "./ConfirmationDialog";
 import TextInput from "./TextInput";
 
 const Sidebar = (props) => {
-  console.log("Sidebar component rendered");
+  // console.log("Sidebar component rendered");
 
   const { todo } = props;
   const { categories, selectedCateId } = useAppContext();
@@ -20,6 +20,7 @@ const Sidebar = (props) => {
   );
   const [description, setDescription] = useState(todo?.description);
   const [deleteDialogShow, setDeleteDialogShow] = useState(false);
+  const submmitRef = useRef(null);
 
   return (
     <>
@@ -71,6 +72,12 @@ const Sidebar = (props) => {
               value={todoValue}
               placeholder="Nhập việc cần làm ..."
               onChange={(e) => setTodoValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault(); // ngăn lỗi warning Form submission canceled because the form is not connected
+                  submmitRef.current?.click();
+                }
+              }}
               spellCheck="false"
               disabled={todo?.isDeleted}
               autoComplete="off"
@@ -182,6 +189,7 @@ const Sidebar = (props) => {
               Huỷ
             </button>
             <input
+              ref={submmitRef}
               className="sb-button"
               style={{
                 backgroundColor: todo

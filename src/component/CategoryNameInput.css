@@ -1,0 +1,57 @@
+.category-name-input {
+  position: absolute;
+  top: 23px;
+  left: 25px;
+  right: -30px;
+  padding: 4px 8px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 0 16px 6px rgba(0,0,0, .15);
+  z-index: 1001;
+  cursor: default;
+}
+
+.category-name-input input[type="text"] {
+  width: 100%;
+  background-color: #f7f7f5;
+  border: solid 1px #e5e5e5;
+  border-radius: 3px;
+  padding: 4px 10px;
+  outline: none;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+input[type="text"][firstfocused="true"]:invalid {
+  border-color: red;
+}
+
+.category-name-input-layout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 8px;
+}
+
+.category-name-input-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gray;
+  border: 1px solid #adadad;
+  border-radius: 3px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.category-name-input-error {
+  padding: 3px;
+  color: red;
+  font-size: 12px;
+  display: none;
+}
+
+input[type="text"][firstfocused="true"]:invalid ~ .category-name-input-error{
+  display: block;
+}
+

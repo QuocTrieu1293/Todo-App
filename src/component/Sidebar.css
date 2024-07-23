@@ -40,7 +40,7 @@ input.sb-item:focus {
     outline-width: 2px;
 }
 
-input.sb-item:invalid[firstFocused="true"] {
+input.sb-item:invalid[firstfocused="true"] {
     outline-color: red;
 }
 

@@ -74,9 +74,22 @@
   margin-top: 50px;
 }
 
-.category-container p:first-child{
+.category-container > :first-child{
   font-family: "Roboto", sans-serif;
   font-weight: 500;
   color: #ADADAD;
   margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
 }
+
+.icon-btn {
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 4px;
+}
+
+
+

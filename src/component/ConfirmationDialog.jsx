@@ -18,7 +18,7 @@ const ConfirmationDialog = (props) => {
       className="cd-backdrop"
       style={{ display: props.open ? "flex" : "none" }}
       onClick={(e) => {
-        e.stopPropagation();
+        e.stopPropagation(); //Để không ảnh hưởng đến hiển thị các component khác như sidebar
         props.setOpen(false);
       }}
     >

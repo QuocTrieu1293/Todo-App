@@ -3,7 +3,7 @@ import { useAppContext } from "../context/AppProvider";
 import { faMagnifyingGlass, faX } from "@fortawesome/free-solid-svg-icons";
 
 const TodoSearch = () => {
-  console.log("TodoSearch component rendered");
+  // console.log("TodoSearch component rendered");
 
   const { searchText, setSearchText } = useAppContext();
 

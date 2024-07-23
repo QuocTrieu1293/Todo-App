@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
-  console.log("App component rendered");
+  // console.log("App component rendered");
 
   const {
     todos,

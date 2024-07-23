@@ -5,7 +5,7 @@ import CategoryList from "./CategoryList";
 import TodoSearch from "./TodoSearch";
 
 const FilterPanel = React.memo(function FilterPanel() {
-  console.log("Filtered component rendered");
+  // console.log("Filtered component rendered");
 
   return (
     <div className="filter-panel">

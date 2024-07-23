@@ -10,7 +10,7 @@ const dummyTodos = [
     isCompleted: true,
     isImportant: true,
     isDeleted: false,
-    cateId: "4",
+    cateId: "2",
     description: "xem từ vid số 2 đên 5",
   },
   {
@@ -37,7 +37,7 @@ const dummyTodos = [
     isCompleted: true,
     isImportant: false,
     isDeleted: false,
-    cateId: "1",
+    cateId: "default",
     description: "Tập ngực + vai",
   },
   {
@@ -46,7 +46,7 @@ const dummyTodos = [
     isCompleted: false,
     isImportant: true,
     isDeleted: false,
-    cateId: "2",
+    cateId: "1",
     description: "",
   },
 ];
@@ -61,15 +61,15 @@ const dummyCategories = [
     label: "Cá nhân",
   },
   {
-    id: "2",
+    id: "1",
     label: "Công việc",
   },
   {
-    id: "3",
+    id: "2",
     label: "Học tập",
   },
   {
-    id: "4",
+    id: "3",
     label: "Đi du lịch",
   },
 ];

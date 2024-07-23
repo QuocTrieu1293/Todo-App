@@ -26,13 +26,13 @@ const FILTER_ITEMS = [
 ];
 
 const FilterList = () => {
-  console.log("FilterList rendered");
+  // console.log("FilterList rendered");
   const { todos, selectedCateId, selectedFilterId, setSelectedFilterId } =
     useAppContext();
 
   // expensive function => useMemo
   const filterCount = useMemo(() => {
-    console.log("filterCountFunc run");
+    // console.log("filterCountFunc run");
     return todos
       .filter((todo) =>
         selectedCateId === "all" || selectedCateId === todo.cateId
